@@ -26,9 +26,6 @@ if __name__=="__main__":
     os.chdir(parent_path)
     env = gym.make("pix_main_arena-v0")
     time.sleep(3)
-    # cv2.imshow("img", img)
-    # cv2.waitKey(0)
-    # time.sleep(100)
     range1 = np.zeros((n + 1,), dtype=int)
     for x in range(n + 1):
         range1[x] = 360 * x / n
@@ -63,13 +60,11 @@ if __name__=="__main__":
     env.remove_car()
     img = env.camera_feed()
     cv2.imwrite('i.jpg',img)
-    # cv2.imshow("img", img)  
+
     frame1=cv2.imread('i.jpg')  
-    # cv2.waitKey(0)
-    # time.sleep(5)
+
     frame1 = cv2.resize(frame1, (600, 600))
-    # cv2.imshow('frame1',frame1)
-    # cv2.waitKey(0)
+
     frame = frame1[20:580, 20:580]
     frame = cv2.resize(frame, (1200, 1200))
     cv2.imwrite('igg.jpg', frame)
@@ -90,14 +85,11 @@ if __name__=="__main__":
         u_b = np.array([u_h, u_s, u_v])
         mask_color = cv2.inRange(hsv, l_b, u_b)
         det_color = cv2.bitwise_and(frame, frame, mask=mask_color)
-        # cv2.imshow('mask', mask_color)
         contours, _ = cv2.findContours(mask_color, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
-        # cv2.imshow('segment', det_color)
         cv2.waitKey(1)
         if (len(contours) >= 1 and j < 7):
             contours = sorted(contours, key=lambda x: cv2.contourArea(x), reverse=True)
-            # print(len(contours))
-            # if j==4 : p=3
+
             while i < len(contours):
                 if (cv2.contourArea(contours[i]) > 50):
                     M = cv2.moments(contours[i])
@@ -116,15 +108,12 @@ if __name__=="__main__":
                             check[h][k] = 35
                         if (j == 6):
                             check[h][k] = 36
-                        # print(j, k, h)
                 i = i + 1
         else:
-            # cv2.waitKey(0)
-            # mask_color = cv2.resize(mask_color, (900, 900))
+
             _, thrash = cv2.threshold(mask_color, 240, 255, cv2.THRESH_BINARY)
             contours, _ = cv2.findContours(thrash, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
             v = 0
-            # cv2.imwrite('bachalebhagwan.jpeg', mask_color)
             for c in contours:
                 approx = cv2.approxPolyDP(c, 0.02 * cv2.arcLength(c, True), True)
                 cv2.drawContours(frame, [approx], 0, (0, 0, 143), 5)
@@ -140,14 +129,6 @@ if __name__=="__main__":
                         k = l
                     if (y > range3[l] and y < range3[l + 1]):
                         h = l
-                # cv2.imshow("abc",frame)
-                # if len(approx) == 3:
-                #     print(j, k, h, "triangle")
-                # elif len(approx) == 4:
-                #     print(j, k, h, "square")
-                # else:
-                #     print(j, k, h, "circle")
-                # print(peri * peri / area)
 
                 if int(peri * peri / area) < 15:
                     print(j, k, h, "circle")
@@ -156,7 +137,6 @@ if __name__=="__main__":
                 else:
                     arr1[v][0] = k
                     arr1[v][1] = h
-                    # print(j, k, h, "triangle")
                     x = np.zeros((3,), dtype=int)
                     y = np.zeros((3,), dtype=int)
                     for l in range(3):
@@ -165,22 +145,17 @@ if __name__=="__main__":
                     check1 = 0
                     h=0
                     k=0
-                    # print('x=', x)
-                    # print('y=', y)
+
                     for l in range(3):
                         for m in range(3):
                             if (x[l] - x[m] < 4 and x[l] - x[m] > -4 and l != m):
-                                # print(x[l],x[m])
                                 h = l
                                 k = m
                                 check1 = 1
-                                # print('hh=', h, 'kk=', k)
                             if (y[l] - y[m] < 4 and y[l] - y[m] > -4 and l != m):
-                                # print(x[l], x[m])
                                 h = l
                                 k = m
                                 check1 = 0
-                                # print('hh1=', h, 'kk1=', k)
                     find = 0
                     if (check1 == 0):
                         arr1[v][2] = arr1[v][0]
@@ -198,11 +173,9 @@ if __name__=="__main__":
                         else:
                             find = 2
                             arr1[v][2] = arr1[v][0] + 1
-                    # print(arr1[v][2], arr1[v][3])
                     v = v + 1
 
-    # print(arr1)
-    # print(check)
+
     for i in range(int(n/2)):
         for j in range(n):
             temp=check[n-1-i][n-1-j]
@@ -211,8 +184,7 @@ if __name__=="__main__":
     for i in range(4):
         for j in range(4):
             arr1[i][j]=n-1-arr1[i][j]
-    # print(arr1)
-    # print(check)
+
 
     for i in range(n*n):
         p=i//n
@@ -270,30 +242,6 @@ if __name__=="__main__":
                     ad[x][x - n] = 0
                 if(x+n<=n*n-1):
                     ad[x][x + n] = 0
-    # print('oneway')
-    # print(arr1)
-    # j=0          
-    # f = open('a.txt', 'w+')
-    # for i in range(145):
-    #     for j in range(144):
-    #         if i==0:
-    #             f.write(str(j+1))
-    #         else:
-    #             f.write(str(ad[i-1][j]))
-    #         f.write("| ")
-    #     f.write("\n")
-    # f.close()
-    # print(ad)
-
-
-    # Python program for Dijkstra's
-# single source shortest
-# path algorithm. The program
-# is for adjacency matrix
-# representation of the graph
-
-# from collections import defaultdict
-# Class to represent a graph
 
     start = 0
     end=0
@@ -306,14 +254,12 @@ if __name__=="__main__":
 
     class Graph:
         start=0
-        def minDistance(self, dist, queue): # min distance currently in dist[]
-            # Initialize min value and min_index as -1
+        def minDistance(self, dist, queue):
+
             global n
             minimum = float("Inf")
             min_index = -1
-            #2 2->2 0->2 1->2
-            # from the dist array,pick one which
-            # has min value and is till in queue
+
             for i in range(len(dist)):
                 if dist[i] < minimum and i in queue:
                     minimum = dist[i]
@@ -321,12 +267,10 @@ if __name__=="__main__":
             return min_index
 
         def printPath(self, parent, j,dist):
-            # Base Case : If j is source
             global maxval
             global end
             global abc
             global n
-            # print('di end=',end)
             global check1
             if(j==end and check1==0):
                 check1 =1
@@ -341,17 +285,13 @@ if __name__=="__main__":
                         k=parent[k]
     
             if parent[j] == -1:
-                # print(j)
                 return
             self.printPath(parent, parent[j],dist)
-            # print(j)
 
         def printSolution(self, dist, parent):
             src = 0
             global n
-            # print("Vertex \t\tDistance from Source\tPath")
             for i in range(1, len(dist)):
-            #     print("\n%d --> %d \t\t%d \t\t\t\t\t" % (start, i, dist[i])),
                 self.printPath(parent, i,dist)
 
         '''Function that implements Dijkstra's single source shortest path
@@ -364,7 +304,6 @@ if __name__=="__main__":
             check1=0
             global n
             global end
-            # print('distart=',start,'diend=',end)
             row=len(graph)
             col=len(graph[0])
             dist = [10000] * row
@@ -375,7 +314,6 @@ if __name__=="__main__":
                 queue.append(i)
             while queue:
                 u = self.minDistance(dist,queue)
-                # print(parent[u],u)
                 if u<0 :
                     u=0
                 queue.remove(u)
@@ -386,8 +324,7 @@ if __name__=="__main__":
                             parent[i] = u
             
             self.printSolution(dist,parent)
-            # print('dx=',listx)
-            # print('dy=',listy)
+
     g= Graph()
     graph = ad
     def graphh():
@@ -404,15 +341,10 @@ if __name__=="__main__":
         for i in range(n):
             for j in range(n):
                 if(check[i][j]==35):
-                    # print(i,j,x)
-                    # global end
+
                     end=x
                     g.dijkstra(graph,x)
-                    # print('pathx=',listx)
-                    # listx.clear()
-                    # print('pathy=',listy)
-                    # listy.clear()
-                    # check1=0
+
                 x=x+1
         abc=1
         end=listx[0] + n* listy[0]
@@ -454,66 +386,50 @@ if __name__=="__main__":
             if (direc[1] < 0):
                 r=0.5
 
-        #paste rotate husky
         x = 5
         start = time.time() * 10
         while True:
             py.stepSimulation()
             env.move_husky(r,-r,r,-r)
             if (int(time.time() * 10) == int(start) + x):
-                # env.move_husky(0,0,0,0)
                 break
             
-        #move husky for sometime
         x = 20
         start = time.time() * 10
         while True:
             py.stepSimulation()
             env.move_husky(1.5,1.5,1.5,1.5)
             if (int(time.time() * 10) == int(start) + x):
-                # env.move_husky(0,0,0,0)
                 break
     
     def ar():
         global n
-        # img1=cv2.imread('media/sample.jpg')
         img1 = env.camera_feed()
         img2 = cv2.resize(img1, (720,720))
-        # img2 = img2[12:708, 12:708]
-        # img2 = cv2.resize(img2, (720,720))
-        # img2 = cv2.resize(img2, (600,600))
+
         img = cv2.rotate(img2, cv2.ROTATE_90_CLOCKWISE)
         img = cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         cv2.imwrite('img2.jpg', img)
-        # Detect Aruco markers
         corners1, ids, rejectedImgPoints = aruco.detectMarkers(gray, ARUCO_DICT, parameters=ARUCO_PARAMETERS)
 
-        # Make sure all 5 markers were detected before printing them out
-        # if ids is not None:
         global x
         global y
         global inx
         if ids is not None:
             corners, ids, rejectedImgPoints = aruco.detectMarkers(gray, ARUCO_DICT, parameters=ARUCO_PARAMETERS)
             x = (corners[0][0][0][0] + corners[0][0][1][0] + corners[0][0][2][0] + corners[0][0][3][0])/4
-        # iebciew jewbe
             y = (corners[0][0][0][1] + corners[0][0][1][1] + corners[0][0][2][1] + corners[0][0][3][1])/4
 
             x= 720/685 * (x-35)
             y= 720/685 * (y-35)
-        # print(x,y)
-            # x=720-x
-            # y=720-y
+
             direc[0]=corners[0][0][0][0]-corners[0][0][3][0]
             direc[1]=corners[0][0][0][1]-corners[0][0][3][1]
 
         else:
             aruconotdetect(x,y)
-        # ar()
-        # cv2,waitKey(0)
 
-    # ar()
     def forward(num1, num2):
         global x
         global y
@@ -524,20 +440,15 @@ if __name__=="__main__":
         a=direc[0]
         b=direc[1]
         while check:
-            # print('fx=',x,'fy=',y,'stop[1]=',stop[num1],'stop[2]=',stop[num2])
-            # print(x,y)
-            # py.stepSimulation()
-            # env.move_husky(10,10,10,10)
+
             x=2
             start=time.time()*10
             while True:
                 py.stepSimulation()
                 env.move_husky(1.5,1.5,1.5,1.5)
                 if(int(time.time()*10)==int(start)+x):
-                    # env.move_husky(0,0,0,0)
                     break
             ar()
-            # print('finx=',inx,'a=',a,'b=',b)
             if (inx):
                 if a>0:
                     if (x>stop[num1]-10):
@@ -556,47 +467,34 @@ if __name__=="__main__":
     def stopnow(x1, y1, corners):
         global inx
         global n
-        # print('corners=',corners)
         x2 = corners[0][0][1][0]-corners[0][0][0][0]
         y2 = corners[0][0][1][1]-corners[0][0][0][1]
-        # print('x2=',x2,'y2=',y2)
-        # print('x1=',x1,'y1=',y1)
+
         if(x1*x2+y1*y2)==0:
-            # print('1')
             return 0
         if(inx==0):
             if(abs(corners[0][0][0][1]-corners[0][0][1][1])<4 or abs(corners[0][0][1][0]-corners[0][0][2][0])<4):
-                # print('2')
                 return 0
         else:
             if(abs(corners[0][0][0][0]-corners[0][0][1][0])<4 or abs(corners[0][0][1][1]-corners[0][0][2][1])<4):
-                # print('3')
                 return 0
         return 1
 
     def left():
         global n
-        # print('left')
         global inx
         if(inx):
             inx=0
         else:
             inx=1
-        # print('inxm=',inx)
         img = env.camera_feed()
-# im    g=cv2.resize(img,(600,600))
-        # cv2.imshow('img', img)
+
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-# De    tect Aruco markers
         corners1, ids, rejectedImgPoints = aruco.detectMarkers(gray, ARUCO_DICT, parameters=ARUCO_PARAMETERS)
 
-# Ma    ke sure all 5 markers were detected before printing them out
         if ids is not None:
             corners, ids, rejectedImgPoints = aruco.detectMarkers(gray, ARUCO_DICT, parameters=ARUCO_PARAMETERS)
-            # Print corners and ids to the console
-            # for i, corner in zip(ids, corners):
-            #     print('ID: {}; Corners: {}'.format(i, corner))
 
         if corners[0][0][0][0] == corners[0][0][1][0]:
             if corners[0][0][0][0]-corners[0][0][3][0] > 0:
@@ -611,31 +509,21 @@ if __name__=="__main__":
 
         x1 = corners[0][0][1][0]-corners[0][0][0][0]
         y1 = corners[0][0][1][1]-corners[0][0][0][1]
-        # x2 = 1
-        # y2 = 1
-        # watching=1
+
         while(stopnow(x1,y1,corners)):
             img = env.camera_feed()
-            # img=cv2.resize(img,(600,600))
-            # cv2.imshow('img',img)
+
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-            # Detect Aruco markers
             corners, ids, rejectedImgPoints = aruco.detectMarkers(gray, ARUCO_DICT, parameters=ARUCO_PARAMETERS)
-            # x2 = corners[0][0][3][0]-corners[0][0][0][0]
-            # y2 = corners[0][0][3][1]-corners[0][0][0][1]
-            # print(x2,y2)
-            x=2
-            # print('st=',start)
 
-            # time.sleep(2)
-            # print('time=',time.time())
+            x=2
+
             start=time.time()*10
             while True:
                 py.stepSimulation()
                 env.move_husky(-0.4,0.4,-0.4,0.4)
                 if(int(time.time()*10)==int(start)+x):
-                    # env.move_husky(0,0,0,0)
                     break
         ar()
         if((abs(direc[0])>=2 and abs(direc[0])<=4) or (abs(direc[1])>=2 and abs(direc[1])<=4)):
@@ -650,27 +538,19 @@ if __name__=="__main__":
 
     def right():
         global n
-        # print('right')
         global inx
         if(inx):
             inx=0
         else:
             inx=1
-        # print('inxm=',inx)
         img = env.camera_feed()
-# im    g=cv2.resize(img,(600,600))
-        # cv2.imshow('img', img)
+
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-# De    tect Aruco markers
         corners1, ids, rejectedImgPoints = aruco.detectMarkers(gray, ARUCO_DICT, parameters=ARUCO_PARAMETERS)
 
-# Ma    ke sure all 5 markers were detected before printing them out
         if ids is not None:
             corners, ids, rejectedImgPoints = aruco.detectMarkers(gray, ARUCO_DICT, parameters=ARUCO_PARAMETERS)
-            # Print corners and ids to the console
-            # for i, corner in zip(ids, corners):
-            #     print('ID: {}; Corners: {}'.format(i, corner))
 
         if corners[0][0][0][0] == corners[0][0][1][0]:
             if corners[0][0][0][0]-corners[0][0][3][0] > 0:
@@ -685,32 +565,21 @@ if __name__=="__main__":
 
         x1 = corners[0][0][1][0]-corners[0][0][0][0]
         y1 = corners[0][0][1][1]-corners[0][0][0][1]
-        # x2 = 1
-        # y2 = 1
-        # watching=1
+
         while(stopnow(x1,y1,corners)):
             
             img = env.camera_feed()
-            # img=cv2.resize(img,(600,600))
-            # cv2.imshow('img',img)
+
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-            # Detect Aruco markers
             corners, ids, rejectedImgPoints = aruco.detectMarkers(gray, ARUCO_DICT, parameters=ARUCO_PARAMETERS)
-            # x2 = corners[0][0][1][0]-corners[0][0][0][0]
-            # y2 = corners[0][0][1][1]-corners[0][0][0][1]
-            # print(x2,y2)
-            x=2
-            # print('st=',start)
 
-            # time.sleep(2)
-            # print('time=',time.time())
+            x=2
             start=time.time()*10
             while True:
                 py.stepSimulation()
                 env.move_husky(0.4,-0.4,0.4,-0.4)
                 if(int(time.time()*10)==int(start)+x):
-                    # env.move_husky(0,0,0,0)
                     break
 
         ar()
@@ -750,7 +619,6 @@ if __name__=="__main__":
         frame1 = cv2.resize(frame1, (600,600))
         frame = frame1[20:580, 20:580]
         frame = cv2.resize(frame, (1200, 1200))
-        # frame = frame1[120:480, 120:480]
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         hsv = cv2.medianBlur(hsv, 3)
 
@@ -784,8 +652,7 @@ if __name__=="__main__":
                     k = l
                 if (y > range3[l] and y < range3[l + 1]):
                     h = l
-            # cv2.imshow("abc",frame)
-            # print(peri*peri/area)
+
             if int(peri*peri/area) < 15:
                 circles.append(n*(n-1-h)+(n-1-k))
                 print(j, k, h, "circle")
@@ -793,9 +660,7 @@ if __name__=="__main__":
                 squares.append(n*(n-1-h)+(n-1-k))
                 print(j, k, h, "square")
         start=end
-        # print(circles[0])
-        # print(circles[1])
-        # print('c=',circles,'s=',squares)
+
         if len(circles)==2:
             if(circles[0]==start):
                 end=circles[1]
@@ -806,8 +671,6 @@ if __name__=="__main__":
                 end=squares[1]
             if(squares[1]==start):
                 end=squares[0]
-        # print('st=',start,'en=',end)
-        # print('pink st=',start,'end=',end)
 
 
 #************************************************FIND COORDINATES....DRIVER*******************************************************************
@@ -824,35 +687,25 @@ if __name__=="__main__":
                 h1 = l
             if (y > range2[l] and y < range2[l + 1]):
                 k1 = l
-        # print('xx=',x,'yy=',y)
-        # print('h1=',h1)
-        # print('k1=',k1)
-        # x=0
-        # y=0
-        # print(h1,k1)
 
     def driver():
         global n
         positive=1
         global x
         global y
-        # graphh()
         print(listx)
         print(listy)
         ar()
         findcoordinate()
         i = 0
         while i < len(listx):
-            # print(listx[i], listy[i])
             if (inx):
                 if(k1!=listy[i]):
                     if(i==0):
                         i=i+1
                     else:
                         positive = listx[i-1] - h1
-                    # print(listx[i-1], listy[i - 1],'in x')
                     forward(listx[i-1], listy[i - 1])
-                    # print('positive=',positive)
                     if (k1 < listy[i]):
                         if (positive > 0):
                             right()
@@ -872,9 +725,7 @@ if __name__=="__main__":
                         i=i+1
                     else:
                         positive = listy[i - 1] - k1
-                    # print(listx[i-1], listy[i-1],'in y')
                     forward(listx[i - 1], listy[i-1])
-                    # print('positive=',positive)
                     if (h1 < listx[i]):
                         if (positive > 0):
                             left()
@@ -931,22 +782,14 @@ if __name__=="__main__":
         global h1
         global k1
         global inx
-        # x=15
-        # start=time.time()*10
-        # while True:
-        #     py.stepSimulation()
-        #     env.move_husky(0.2,0.2,0.2,0.2)
-        #     if(int(time.time()*10)==int(start)+x):
-        #         break
+
         ar()
         findcoordinate()
         execute()
         ar()
         diffx=listx[0]-h1
         diffy=listy[0]-k1
-        # print('x=',diffx,'y=',diffy)
         if(diffx==0):
-            # print('a')
             while ((direc[1]*diffy)<0 or abs(direc[0])>=5):
                 x = 2
                 start = time.time() * 10
@@ -957,10 +800,8 @@ if __name__=="__main__":
                         break
                 ar()
         else:
-            # print('c')
             while ((direc[0]*diffx)<0 or abs(direc[1])>=5):
-                # print('dir1=',abs(direc[1]))
-                # print('d')
+
                 x = 2
                 start = time.time() * 10
                 while True:
@@ -969,7 +810,6 @@ if __name__=="__main__":
                     if (int(time.time() * 10) == int(start) + x):
                         break
                 ar()
-        # print('d0=',direc[0],'d1=',direc[1])
         if abs(direc[0]) > 5:
             inx=1
         if abs(direc[1]) > 5:
@@ -998,7 +838,6 @@ if __name__=="__main__":
         global n
         chek=1
         while chek:
-            # print('step',inx,a,b,x,y)
             py.stepSimulation()
             x1=2
             start=time.time()*10
@@ -1006,7 +845,6 @@ if __name__=="__main__":
                 py.stepSimulation()
                 env.move_husky(1,1,1,1)
                 if(int(time.time()*10)==int(start)+x1):
-                # env.move_husky(0,0,0,0)
                     break
             if (inx):
                 if a>0:
@@ -1023,36 +861,7 @@ if __name__=="__main__":
                     if(y < 10 + 720/n*listy[len(listy)-1]):
                         chek=0
             ar()
-        # if(inx):
-        #     while(x<=720/n*listx[len(listx)-1]):
-        #         print('x=',x,'stepx')
-                # x=2
-                # start=time.time()*10
-                # while True:
-                #     py.stepSimulation()
-                #     env.move_husky(1,1,1,1)
-                #     if(int(time.time()*10)==int(start)+x):
-                #     # env.move_husky(0,0,0,0)
-                #         break
-        #         ar()
-        #     # while True:
-        #     py.stepSimulation()
-        #     env.move_husky(0,0,0,0)
-        # else:
-        #     while(y<=720/n*listy[len(listy)-1]):                 #may require change
-        #         print('y=',y,'stepy')
-        #         x=2
-        #         start=time.time()*10
-        #         while True:
-        #             py.stepSimulation()
-        #             env.move_husky(1,1,1,1)
-        #             if(int(time.time()*10)==int(start)+x):
-        #             # env.move_husky(0,0,0,0)
-        #                 break
-        #         ar()
-        #     # while True:
-        #     py.stepSimulation()
-        #     env.move_husky(0,0,0,0)
+            
 
     #****************************************************MAIN HEAD*******************************************************************
     def main_head():
@@ -1064,37 +873,27 @@ if __name__=="__main__":
         global end
         global start
         global inx
-        # print('ar')                 #1st patient
+                                     #1st patient
         ar()
-        # print('findcoordinate')
         findcoordinate()
-        # check[6][0]=0
-        # print('graph')
+
         graphh()
-        # print('oneway')
         print(arr1)
         listx.reverse()
         listy.reverse()
-        # print('rotate')
         rotate()
-        # time.sleep(2)
-        # print('driver')
+
         driver()
-        # print('pink')
         pink()
         time.sleep(2)
-        # print('ar')
         ar()
-        # print('stepup')
         stepup()
         check[listy[len(listx)-1]][listx[len(listy)-1]]=0
-        # print('to be zero-',check[listx[len(listx)-1]][listy[len(listy)-1]],listx[len(listx)-1],listy[len(listy)-1])
         
         print(check)
     #*************************************#
         listx.clear()                        #1st hospital
         listy.clear()
-        # print('dijkstra')
         g.dijkstra(graph,end)
         listx.reverse()
         listy.reverse()
@@ -1103,9 +902,7 @@ if __name__=="__main__":
         driver()
         time.sleep(2)
         ar()
-        # print('stepup')
         stepup()
-        # print(check)
 
         listx.clear()           #2nd patient
         listy.clear()
@@ -1122,7 +919,6 @@ if __name__=="__main__":
 
         listx.clear()       #2nd hospital
         listy.clear()
-        # print('dijkstra')
         g.dijkstra(graph,end)
         listx.reverse()
         listy.reverse()
@@ -1134,6 +930,3 @@ if __name__=="__main__":
         stepup()
 
     main_head()
-
-
-
