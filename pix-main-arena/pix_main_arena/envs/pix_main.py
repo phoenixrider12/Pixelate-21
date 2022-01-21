@@ -29,7 +29,7 @@ class PixArena(gym.Env):
 		p.connect(p.GUI)
 		p.setAdditionalSearchPath(pybullet_data.getDataPath())
 		p.setGravity(0,0,-15)
-		p.loadURDF('/home/aryaman/Pixelate-21/rsc/plane.urdf',[0,0,-0.1], useFixedBase=1)
+		p.loadURDF('rsc/plane.urdf',[0,0,-0.1], useFixedBase=1)
 		p.configureDebugVisualizer(p.COV_ENABLE_WIREFRAME, 0)
 		p.configureDebugVisualizer(p.COV_ENABLE_SHADOWS, 0)
 		
@@ -84,7 +84,7 @@ class PixArena(gym.Env):
 		p.resetSimulation()
 		p.setGravity(0,0,-10)
 
-		p.loadURDF('/home/aryaman/Pixelate-21/rsc/plane.urdf',[0,0,-0.1], useFixedBase=1)
+		p.loadURDF('rsc/plane.urdf',[0,0,-0.1], useFixedBase=1)
 		p.configureDebugVisualizer(p.COV_ENABLE_WIREFRAME, 0)
 		p.configureDebugVisualizer(p.COV_ENABLE_SHADOWS, 0)
 		
@@ -145,13 +145,13 @@ class PixArena(gym.Env):
 		# self.shapes = np.rot90(self.shapes, 3)
 		# print(self.arena)
 		base_plate_dict = {
-			1: '/home/aryaman/Pixelate-21/rsc/base plate/base plate green.urdf',
-			2: '/home/aryaman/Pixelate-21/rsc/base plate/base plate cyan.urdf',
-			3: '/home/aryaman/Pixelate-21/rsc/base plate/base plate red.urdf',
-			4: '/home/aryaman/Pixelate-21/rsc/base plate/base plate purple.urdf',
-			5: '/home/aryaman/Pixelate-21/rsc/base plate/base plate yellow.urdf',
-			6: '/home/aryaman/Pixelate-21/rsc/base plate/base plate white.urdf',
-			7: '/home/aryaman/Pixelate-21/rsc/base plate/base plate darkgreen.urdf',
+			1: 'rsc/base plate/base plate green.urdf',
+			2: 'rsc/base plate/base plate cyan.urdf',
+			3: 'rsc/base plate/base plate red.urdf',
+			4: 'rsc/base plate/base plate purple.urdf',
+			5: 'rsc/base plate/base plate yellow.urdf',
+			6: 'rsc/base plate/base plate white.urdf',
+			7: 'rsc/base plate/base plate darkgreen.urdf',
 			# 1: 'rsc/base plate/base plate blue.urdf',
 		}
 		shape_colour_dict = {
@@ -161,12 +161,12 @@ class PixArena(gym.Env):
 			# 3: 'rsc/square/square red.urdf',
 			# 4: 'rsc/circle/circle red.urdf',
 			# 5: 'rsc/triangle/triangle red.urdf',
-			1: '/home/aryaman/Pixelate-21/rsc/circle/circle blue.urdf',
-			2: '/home/aryaman/Pixelate-21/rsc/square/square blue.urdf',
-			3: '/home/aryaman/Pixelate-21/rsc/triangle/triangle blue.urdf',
-			4: '/home/aryaman/Pixelate-21/rsc/triangle/triangle blue.urdf',
-			5: '/home/aryaman/Pixelate-21/rsc/triangle/triangle blue.urdf',
-			6: '/home/aryaman/Pixelate-21/rsc/triangle/triangle blue.urdf',
+			1: 'rsc/circle/circle blue.urdf',
+			2: 'rsc/square/square blue.urdf',
+			3: 'rsc/triangle/triangle blue.urdf',
+			4: 'rsc/triangle/triangle blue.urdf',
+			5: 'rsc/triangle/triangle blue.urdf',
+			6: 'rsc/triangle/triangle blue.urdf',
 		}
 		self.shape_color = shape_colour_dict
 		def get_postion(i, j):
@@ -310,7 +310,7 @@ class PixArena(gym.Env):
 		pos = [[11, 11]]
 		ori = [np.pi/2, 0, np.pi/2, np.pi]
 		x = np.random.randint(0, len(pos))
-		self.husky = p.loadURDF('/home/aryaman/Pixelate-21/rsc/car/car.urdf', [5.5-1*pos[x][0],5.5-1*pos[x][1],0], p.getQuaternionFromEuler([0,0,ori[x]]))
+		self.husky = p.loadURDF('rsc/car/car.urdf', [5.5-1*pos[x][0],5.5-1*pos[x][1],0], p.getQuaternionFromEuler([0,0,ori[x]]))
 		#self.husky = p.loadURDF('husky/husky.urdf', [4-1*pos[x][0],4-1*pos[x][1],0], p.getQuaternionFromEuler([0,0,ori[x]]))
 		#self.aruco = p.loadURDF('rsc/aruco/aruco.urdf', [4-1*pos[x][0],4-1*pos[x][1],1.2], p.getQuaternionFromEuler([1.5707,0,ori[x]]))
 		#p.createConstraint(self.husky, -1, self.aruco, -1, p.JOINT_FIXED, [0,0,1], [0,0,0.4], [0,0,0], childFrameOrientation = p.getQuaternionFromEuler([0,0,1]))

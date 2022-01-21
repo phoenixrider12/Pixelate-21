@@ -59,15 +59,15 @@ if __name__=="__main__":
 
     env.remove_car()
     img = env.camera_feed()
-    cv2.imwrite('i.jpg',img)
+    cv2.imwrite('img.jpg',img)
 
-    frame1=cv2.imread('i.jpg')  
+    frame1=cv2.imread('img.jpg')  
 
     frame1 = cv2.resize(frame1, (600, 600))
 
     frame = frame1[20:580, 20:580]
     frame = cv2.resize(frame, (1200, 1200))
-    cv2.imwrite('igg.jpg', frame)
+    # cv2.imwrite('igg.jpg', frame)
 
     env.respawn_car()
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -410,7 +410,7 @@ if __name__=="__main__":
         img = cv2.rotate(img2, cv2.ROTATE_90_CLOCKWISE)
         img = cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        cv2.imwrite('img2.jpg', img)
+        # cv2.imwrite('img2.jpg', img)
         corners1, ids, rejectedImgPoints = aruco.detectMarkers(gray, ARUCO_DICT, parameters=ARUCO_PARAMETERS)
 
         global x
@@ -612,10 +612,10 @@ if __name__=="__main__":
             py.stepSimulation()
             env.remove_cover_plate(11-listy[len(listx)-1],11-listx[len(listy)-1])
             img = env.camera_feed()
-            cv2.imwrite('i.jpg',img)
+            cv2.imwrite('img.jpg',img)
             x+=1
 
-        frame1 = cv2.imread('i.jpg')
+        frame1 = cv2.imread('img.jpg')
         frame1 = cv2.resize(frame1, (600,600))
         frame = frame1[20:580, 20:580]
         frame = cv2.resize(frame, (1200, 1200))
